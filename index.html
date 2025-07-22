@@ -1,0 +1,134 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tori Dey Decision Making Tool</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0fff4;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #0d8f4f;
+      padding: 20px;
+      text-align: center;
+      color: white;
+    }
+    .container {
+      max-width: 700px;
+      margin: 30px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #0d8f4f;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    select, input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-top: 20px;
+      background-color: #0d8f4f;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .response-message {
+      display: none;
+      margin-top: 20px;
+      background: #e6ffed;
+      color: #0d8f4f;
+      padding: 15px;
+      border-left: 5px solid #0d8f4f;
+      border-radius: 5px;
+    }
+    img.banner {
+      width: 100%;
+      max-height: 300px;
+      object-fit: cover;
+      border-radius: 0 0 10px 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Tori Dey Decision Making Tool</h1>
+  </header>
+  <img src="Story telling compass (2).png" class="banner" alt="Story Compass Banner">
+  <div class="container">
+    <form id="storyForm" action="https://formspree.io/f/xblkjnad" method="POST">
+      <label>Email</label>
+      <input type="email" name="email" required />
+
+      <label>Country</label>
+      <input type="text" name="country" required />
+
+      <label>Organization or Institution</label>
+      <input type="text" name="organization" required />
+
+      <label>What do you want the story to be about?</label>
+      <select name="story_about[]" multiple required id="storyPurpose">
+        <option disabled selected>No response</option>
+        <option value="process">The approach and methodology we employed/the way we did our work</option>
+        <option value="narrative">The way we worked and the results</option>
+        <option value="impact">The impact of our work on People’s lives</option>
+        <option value="creative">How scientific data can elicit artistic creativity</option>
+      </select>
+
+      <button type="submit">Submit</button>
+    </form>
+
+    <div class="response-message" id="responseMessage">
+      <p><strong>Thank you!</strong> eBASE Africa has received your submission and will work with you to bring your story to life.</p>
+      <p id="storyRecommendation"></p>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById("storyForm");
+    const responseMessage = document.getElementById("responseMessage");
+    const storyPurpose = document.getElementById("storyPurpose");
+    const storyRecommendation = document.getElementById("storyRecommendation");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const selected = Array.from(storyPurpose.selectedOptions).map(opt => opt.value);
+      let recommendation = "Based on your responses, we recommend a ";
+
+      if (selected.includes("process")) {
+        recommendation += "Process Story.";
+      } else if (selected.includes("narrative")) {
+        recommendation += "Narrative Story.";
+      } else if (selected.includes("impact")) {
+        recommendation += "Impact Story.";
+      } else if (selected.includes("creative")) {
+        recommendation += "Creative Story.";
+      } else {
+        recommendation = "Please select a story type.";
+      }
+
+      storyRecommendation.textContent = recommendation;
+      responseMessage.style.display = "block";
+      setTimeout(() => form.submit(), 1000); // submit after showing message
+    });
+  </script>
+</body>
+</html>
